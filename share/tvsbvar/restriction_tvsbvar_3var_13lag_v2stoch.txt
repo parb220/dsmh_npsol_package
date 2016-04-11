@@ -1,0 +1,89 @@
+//** Lines starting with //== are line identifiers that are used to find specific
+//** fields and must not be modified.  The lines below a line identifier must be
+//** of the proper format.  Lines starting with //** are comments and can be
+//** inserted, deleted, or modified.
+
+//** X or x means a free parameter
+//** Real values mean the parameters can only take specified values
+
+//** Total number of regimes = Number of Base Regimes * Number of Multiplicative Regimes * Number of Addititve Regimes
+//** This function corresponds to the case with one base regime, two multiplicative regimes and one additive regime
+//** In the base regime, A0 is partially restricted, Aplus is free, and Xi is restricted
+//** In the 1st multiplicative
+
+
+//== NumberVariables
+3
+//== NumberLags
+13
+//== NumberExogenousVariables
+1
+
+//== Base::NumberRegimes
+1
+//== Base::A[0]
+X  X  X
+X  X  0
+0  0  X
+
+//== Base::Aplus[0]
+X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X    X
+X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X    X
+X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X    X
+
+//== Base::Xi[0]
+1 0 0 
+0 1 0
+0 0 1
+
+//== Multiplicative::NumberRegimes
+2
+
+//== Multiplicative::A[0]
+1 1 1 
+1 1 1
+1 1 1
+
+//== Multiplicative::A[1]
+1 1 1
+1 1 1
+1 1 1
+
+//== Multiplicative::Aplus[0]
+1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1    1
+1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1    1
+1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1    1
+
+//== Multiplicative::Aplus[1]
+1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1    1
+1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1    1
+1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1   1 1 1    1
+
+//== Multiplicative::Xi[0]
+1 1 1
+1 1 1
+1 1 1
+
+//== Multiplicative::Xi[1]
+x 1 1
+1 x 1
+1 1 x
+
+//== Additive::NumberRegimes
+1
+
+//== Additive::A[0]
+0 0 0
+0 0 0
+0 0 0
+
+
+//== Additive::Aplus[0]
+0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0    0
+0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0    0
+0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0   0 0 0    0
+
+//== Additive::Xi[0]
+0 0 0
+0 0 0
+0 0 0

@@ -1,0 +1,30 @@
+//** Lines starting with //== are line identifiers that are used to find specific
+//** fields and must not be modified.  The lines below a line identifier must be
+//** of the proper format.  Lines starting with //** are comments and can be 
+//** inserted, deleted, or modified.
+
+
+//== NumberProcesses
+1
+
+//** Process 0 *******************************************************************
+//== NumberRegimes[0]
+2
+
+//== SimpleRestrictions[0]
+x x 
+x x
+
+//== DurationPrior[0]
+12.0 12.0
+
+//** Process 1 *******************************************************************
+//== NumberRegimes[1]
+2
+
+//== SimpleRestrictions[1]
+x x
+x x
+
+//== DurationPrior[1]
+12.0 12.0

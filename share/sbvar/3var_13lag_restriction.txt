@@ -1,0 +1,23 @@
+3
+
+X  X  X    
+X  X  0    
+0  0  X
+
+13
+1
+
+X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X    X
+X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X    X
+X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X   X X X    X
+
+
+/*******************************************************************************/
+first number = number of variables
+first matrix = A0, contemporaneous exclusion restrictions 
+second number = number of lags
+third number = number or exogenous variables
+second matrix = Aplus, predetermined exclusion restrictions
+X or x means free parameters
+real values mean restricted parameters (parameters can only take specified values)
+/*******************************************************************************/

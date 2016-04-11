@@ -1,0 +1,44 @@
+1. Libraries that are needed before dsmh can be properly installed
+a. GSL (GNU Scientific Library), http://www.gnu.org/software/gsl/
+b. BLAS (Basic Linear Algebra Subprograms), http://www.netlib.org/blas/
+c. LAPACK (Linear Algebra PACKage), http://www.netlib.org/lapack/
+d. MPICH, https://www.mpich.org/
+e. NPSOL 
+
+2. Installation
+a. Run 'configure LDFLAGS="-Lpath-of-npsol-library-files -lnpsol_f77 -llssol_f77' [--prefix directory-where-dsmh-package-will-be-installed]'
+b. Run 'make install' and the 'bin' and 'share' directories will be generated in the directory where the dsmh package is installed. The 'bin' directory contains the executable codes of the examples. And the 'share' directory contains the data that the examples will use. 
+c. Run 'make clean' for clean-up.
+
+3. When dsmh cannot be successfully installed, check whether the required libraries have been properly installed.
+a1. GSL header files
+The header files of the gsl package should by default be installed in /usr/local/include/gsl/ or /usr/include/gsl/. If not, then the directory of the header files should be specified when running 'configure' (2a, in addition to the other flags), as follows:
+
+configure CXXFLAGS=-I[directory-of-gsl-header-files] 
+
+a2. GSL library files
+The GSL library files, libm.so (or libm.a), libgslcblas.so (or libgslcblas.a), and libgsl.so (libgsl.a), should by default be installed in /usr/local/lib/ or /usr/lib64/ or /usr/lib/. If not, then the directory of the library files should be specified when running 'configure' (2a, in addition to the other flags), as follows:
+
+configure LDFLAGS=-L[directory-of-gsl-library-files]
+
+b. BLAS 
+The BLAS library file, libblas.so (or libblas.a), should by default be installed in /usr/lib64/ or /usr/lib/ or /usr/local/lib/. If not, then the directory of this library file should be specified when running 'configure' (2a, in addition to the other flags), as follows:
+
+configure LDFLAGS=-L[directory-of-blas-library-file]
+
+c. LAPACK
+The LAPACK library file, liblapack.so (or liblapack.a), should by default be installed in /usr/lib64 or /usr/lib/ or /usr/local/lib/. If not, then the directory of this library file should be specified when running 'configure' (2a, in addition to the other flags), as follows:
+
+configure LDFLAGS=-L[directory-of-blas-library-file]
+
+d. MPICH
+The MPICH library file, libmpi.so (or libmpi.a), should by default be installed in /usr/local/lib or /usr/lib64/ or /usr/lib/. If not, then the directory of this library file should be specified when running 'configure' (2a, in addition to the other flags), as follows:
+
+configure LDFLAGS=-L[directory-of-mpi-library-file]
+
+e. In the above (a1-d), if mutiple paths need to be specified with either CXXFLAGS or LDFLAGS, then single quotes should be used to enclose all the paths, as follows:
+
+CXXFLAGS='-I[path1] -I[path2] ...'
+LDFLAGS='-L[path1] -L[path2] ...'
+
+4. For new models, revise src/Makefile.am accordingly.

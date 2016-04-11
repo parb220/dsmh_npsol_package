@@ -1,0 +1,11 @@
+//** Lines starting with //== are line identifiers that are used to find specific
+//** fields and must not be modified.  The lines below a line identifier must be
+//** of the proper format.  Lines starting with //** are comments and can be
+//** inserted, deleted, or modified.
+
+//== NumberHyperParameter
+9
+
+//== HyperParameter
+0.7 0.5 0.1 1.2 1.0 1.0 1.0 1.0 1.0
+
