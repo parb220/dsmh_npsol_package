@@ -1,4 +1,5 @@
 *.o
+*.draw.txt
 data/*
 data/sbvar/*
 data/tvsbvar/*
