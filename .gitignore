@@ -1,2 +1,4 @@
 *.o
 data/*
+data/sbvar/*
+data/tvsbvar/*
