@@ -11,4 +11,5 @@ const string BLOCK = string(".block");
 const string BLOCK_SCHEME = string(".block_scheme"); 
 const string GM_MEAN_COVARIANCE = string(".gm_mean_covariance"); 
 const string SCALE = string(".scale"); 
+const string OPTIMIZATION = string(".optimization"); 
 #endif

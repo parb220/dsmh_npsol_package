@@ -35,7 +35,7 @@ std::vector<int> ExecutingSimulationTask(TDenseMatrix &jump_table, CEquiEnergyMo
 		if (start_points.empty()) 
 		{
 			cerr << "ExecutingSimulationTask(): Error occurred reading start point files " << start_point_file << endl; 
-			abort(); 
+			exit(1); 
 		}
 		
 		// metropolis
@@ -43,7 +43,7 @@ std::vector<int> ExecutingSimulationTask(TDenseMatrix &jump_table, CEquiEnergyMo
        		if (!model.metropolis->ReadBlocks(block_file_name) )
        		{
        			cerr << "ExectuingSimulationTask: Error occurred while reading " << block_file_name << endl;
-       			abort();
+       			exit(1); 
        		}
 	
 		jump_table.Zeros(model.parameter->number_striation, model.parameter->number_striation); 

@@ -84,6 +84,7 @@ public:
 	virtual bool DrawParametersFromPrior(double *x) const = 0;
 	
 	std::vector<CSampleIDWeight> Initialize_WeightedSampling(const std::vector<CSampleIDWeight> &, int K, int stage_index) ; 
+	std::vector<CSampleIDWeight> Initialize_WeightedSampling(const std::vector<CSampleIDWeight> &, int K) ; 
 	// Reweight samples
 	vector<double> Reweight(const vector<CSampleIDWeight> &samples, int current_stage, int previous_stage); 
 

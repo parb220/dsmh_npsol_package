@@ -1,5 +1,6 @@
-*.o
+*.Po
 *.draw.txt
 data/*
 data/sbvar/*
 data/tvsbvar/*
+bin/*

@@ -79,7 +79,9 @@ POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
 bin_PROGRAMS = test_sbvar_simulation$(EXEEXT) \
-	test_tvsbvar_simulation$(EXEEXT)
+	test_tvsbvar_simulation$(EXEEXT) \
+	test_sbvar_optimization$(EXEEXT) \
+	test_tvsbvar_optimization$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -111,15 +113,33 @@ am__objects_3 = DispatchSimulation.$(OBJEXT) \
 	ExecutingSimulationTask.$(OBJEXT) \
 	GetCommunicationParameter.$(OBJEXT) \
 	HighestPlus1Stage.$(OBJEXT) master_deploying.$(OBJEXT) \
-	mdd_function.$(OBJEXT) slave_computing.$(OBJEXT)
+	mdd_function.$(OBJEXT) slave_computing.$(OBJEXT) \
+	master_mode_finding_deploying.$(OBJEXT) \
+	slave_mode_finding_computing.$(OBJEXT)
 am__objects_4 = dw_data.$(OBJEXT) regime_processes.$(OBJEXT) \
 	CEquiEnergy_TimeSeries.$(OBJEXT)
+am_test_sbvar_optimization_OBJECTS =  \
+	test_sbvar_optimization.$(OBJEXT) sbvar.$(OBJEXT) \
+	sbvar_blocks.$(OBJEXT) $(am__objects_1) $(am__objects_2) \
+	$(am__objects_3) $(am__objects_4)
+test_sbvar_optimization_OBJECTS =  \
+	$(am_test_sbvar_optimization_OBJECTS)
+test_sbvar_optimization_LDADD = $(LDADD)
 am_test_sbvar_simulation_OBJECTS = sbvar.$(OBJEXT) \
 	sbvar_blocks.$(OBJEXT) test_sbvar_simulation.$(OBJEXT) \
 	$(am__objects_1) $(am__objects_2) $(am__objects_3) \
 	$(am__objects_4)
 test_sbvar_simulation_OBJECTS = $(am_test_sbvar_simulation_OBJECTS)
 test_sbvar_simulation_LDADD = $(LDADD)
+am_test_tvsbvar_optimization_OBJECTS =  \
+	test_tvsbvar_optimization.$(OBJEXT) sbvar.$(OBJEXT) \
+	sbvar_blocks.$(OBJEXT) hyper_parameter.$(OBJEXT) \
+	tvsbvar.$(OBJEXT) Sims_Zha.$(OBJEXT) Restriction.$(OBJEXT) \
+	tvsbvar_blocks.$(OBJEXT) $(am__objects_1) $(am__objects_2) \
+	$(am__objects_3) $(am__objects_4)
+test_tvsbvar_optimization_OBJECTS =  \
+	$(am_test_tvsbvar_optimization_OBJECTS)
+test_tvsbvar_optimization_LDADD = $(LDADD)
 am_test_tvsbvar_simulation_OBJECTS = sbvar.$(OBJEXT) \
 	sbvar_blocks.$(OBJEXT) hyper_parameter.$(OBJEXT) \
 	tvsbvar.$(OBJEXT) Sims_Zha.$(OBJEXT) Restriction.$(OBJEXT) \
@@ -174,9 +194,13 @@ AM_V_CXXLD = $(am__v_CXXLD_$(V))
 am__v_CXXLD_ = $(am__v_CXXLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(test_sbvar_simulation_SOURCES) \
+SOURCES = $(test_sbvar_optimization_SOURCES) \
+	$(test_sbvar_simulation_SOURCES) \
+	$(test_tvsbvar_optimization_SOURCES) \
 	$(test_tvsbvar_simulation_SOURCES)
-DIST_SOURCES = $(test_sbvar_simulation_SOURCES) \
+DIST_SOURCES = $(test_sbvar_optimization_SOURCES) \
+	$(test_sbvar_simulation_SOURCES) \
+	$(test_tvsbvar_optimization_SOURCES) \
 	$(test_tvsbvar_simulation_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -313,10 +337,12 @@ top_builddir = ..
 top_srcdir = ..
 utilities_SOURCES = utilities_dw/dw_array.c utilities_dw/dw_ascii.c utilities_dw/dw_dense_matrix.cpp utilities_dw/dw_elliptical.c utilities_dw/dw_math.c utilities_dw/dw_matrix.c utilities_dw/dw_matrix_rand.c utilities_dw/dw_parse_cmd.c utilities_dw/dw_rand_gsl.c utilities_dw/bmatrix.c utilities_dw/dw_error.c utilities_dw/tzmatlab.c utilities_dw/dw_matrix_sort.c utilities_dw/dw_ascii_cpp.cpp
 dsmh_basci_SOURCES = dsmh_basic/CEESParameter.cpp dsmh_basic/CEquiEnergyModel.cpp dsmh_basic/CEquiEnergyModel_Initialize.cpp dsmh_basic/CEquiEnergyModel_HillClimb.cpp dsmh_basic/CMetropolis.cpp dsmh_basic/CPutGetBin.cpp dsmh_basic/CSampleIDWeight.cpp dsmh_basic/CStorageHead.cpp dsmh_basic/Glob.cpp
-dsmh_mpi_SOURCES = dsmh_mpi/DispatchSimulation.cpp dsmh_mpi/DispatchTuneSimulation.cpp dsmh_mpi/EstimateLogMDD.cpp dsmh_mpi/ExecutingSimulationTask.cpp dsmh_mpi/GetCommunicationParameter.cpp dsmh_mpi/HighestPlus1Stage.cpp dsmh_mpi/master_deploying.cpp dsmh_mpi/mdd_function.c dsmh_mpi/slave_computing.cpp
+dsmh_mpi_SOURCES = dsmh_mpi/DispatchSimulation.cpp dsmh_mpi/DispatchTuneSimulation.cpp dsmh_mpi/EstimateLogMDD.cpp dsmh_mpi/ExecutingSimulationTask.cpp dsmh_mpi/GetCommunicationParameter.cpp dsmh_mpi/HighestPlus1Stage.cpp dsmh_mpi/master_deploying.cpp dsmh_mpi/mdd_function.c dsmh_mpi/slave_computing.cpp dsmh_mpi/master_mode_finding_deploying.cpp dsmh_mpi/slave_mode_finding_computing.cpp
 time_series_SOURCES = time_series/dw_data.cpp time_series/regime_processes.cpp time_series/CEquiEnergy_TimeSeries.cpp
 test_sbvar_simulation_SOURCES = time_series/sbvar.cpp time_series/sbvar_blocks.cpp time_series/test_sbvar_simulation.cpp $(utilities_SOURCES) $(dsmh_basci_SOURCES) $(dsmh_mpi_SOURCES) $(time_series_SOURCES)
 test_tvsbvar_simulation_SOURCES = time_series/sbvar.cpp time_series/sbvar_blocks.cpp time_series/hyper_parameter.cpp time_series/tvsbvar.cpp time_series/Sims_Zha.cpp time_series/Restriction.cpp time_series/tvsbvar_blocks.cpp time_series/test_tvsbvar_simulation.cpp $(utilities_SOURCES) $(dsmh_basci_SOURCES) $(dsmh_mpi_SOURCES) $(time_series_SOURCES)
+test_sbvar_optimization_SOURCES = time_series/test_sbvar_optimization.cpp time_series/sbvar.cpp time_series/sbvar_blocks.cpp $(utilities_SOURCES) $(dsmh_basci_SOURCES) $(dsmh_mpi_SOURCES) $(time_series_SOURCES) 
+test_tvsbvar_optimization_SOURCES = time_series/test_tvsbvar_optimization.cpp time_series/sbvar.cpp time_series/sbvar_blocks.cpp time_series/hyper_parameter.cpp time_series/tvsbvar.cpp time_series/Sims_Zha.cpp time_series/Restriction.cpp time_series/tvsbvar_blocks.cpp $(utilities_SOURCES) $(dsmh_basci_SOURCES) $(dsmh_mpi_SOURCES) $(time_series_SOURCES)
 AM_CPPFLAGS = -Iinclude/utilities_dw -Iinclude/dsmh_basic -Iinclude/dsmh_mpi -Iinclude/time_series -DDATADIR=\"$(pkgdatadir)\"
 all: all-am
 
@@ -395,9 +421,17 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
+test_sbvar_optimization$(EXEEXT): $(test_sbvar_optimization_OBJECTS) $(test_sbvar_optimization_DEPENDENCIES) $(EXTRA_test_sbvar_optimization_DEPENDENCIES) 
+	@rm -f test_sbvar_optimization$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_sbvar_optimization_OBJECTS) $(test_sbvar_optimization_LDADD) $(LIBS)
+
 test_sbvar_simulation$(EXEEXT): $(test_sbvar_simulation_OBJECTS) $(test_sbvar_simulation_DEPENDENCIES) $(EXTRA_test_sbvar_simulation_DEPENDENCIES) 
 	@rm -f test_sbvar_simulation$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(test_sbvar_simulation_OBJECTS) $(test_sbvar_simulation_LDADD) $(LIBS)
+
+test_tvsbvar_optimization$(EXEEXT): $(test_tvsbvar_optimization_OBJECTS) $(test_tvsbvar_optimization_DEPENDENCIES) $(EXTRA_test_tvsbvar_optimization_DEPENDENCIES) 
+	@rm -f test_tvsbvar_optimization$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_tvsbvar_optimization_OBJECTS) $(test_tvsbvar_optimization_LDADD) $(LIBS)
 
 test_tvsbvar_simulation$(EXEEXT): $(test_tvsbvar_simulation_OBJECTS) $(test_tvsbvar_simulation_DEPENDENCIES) $(EXTRA_test_tvsbvar_simulation_DEPENDENCIES) 
 	@rm -f test_tvsbvar_simulation$(EXEEXT)
@@ -443,12 +477,16 @@ include ./$(DEPDIR)/dw_parse_cmd.Po
 include ./$(DEPDIR)/dw_rand_gsl.Po
 include ./$(DEPDIR)/hyper_parameter.Po
 include ./$(DEPDIR)/master_deploying.Po
+include ./$(DEPDIR)/master_mode_finding_deploying.Po
 include ./$(DEPDIR)/mdd_function.Po
 include ./$(DEPDIR)/regime_processes.Po
 include ./$(DEPDIR)/sbvar.Po
 include ./$(DEPDIR)/sbvar_blocks.Po
 include ./$(DEPDIR)/slave_computing.Po
+include ./$(DEPDIR)/slave_mode_finding_computing.Po
+include ./$(DEPDIR)/test_sbvar_optimization.Po
 include ./$(DEPDIR)/test_sbvar_simulation.Po
+include ./$(DEPDIR)/test_tvsbvar_optimization.Po
 include ./$(DEPDIR)/test_tvsbvar_simulation.Po
 include ./$(DEPDIR)/tvsbvar.Po
 include ./$(DEPDIR)/tvsbvar_blocks.Po
@@ -664,6 +702,20 @@ mdd_function.obj: dsmh_mpi/mdd_function.c
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
+test_sbvar_optimization.o: time_series/test_sbvar_optimization.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_sbvar_optimization.o -MD -MP -MF $(DEPDIR)/test_sbvar_optimization.Tpo -c -o test_sbvar_optimization.o `test -f 'time_series/test_sbvar_optimization.cpp' || echo '$(srcdir)/'`time_series/test_sbvar_optimization.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/test_sbvar_optimization.Tpo $(DEPDIR)/test_sbvar_optimization.Po
+#	$(AM_V_CXX)source='time_series/test_sbvar_optimization.cpp' object='test_sbvar_optimization.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_sbvar_optimization.o `test -f 'time_series/test_sbvar_optimization.cpp' || echo '$(srcdir)/'`time_series/test_sbvar_optimization.cpp
+
+test_sbvar_optimization.obj: time_series/test_sbvar_optimization.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_sbvar_optimization.obj -MD -MP -MF $(DEPDIR)/test_sbvar_optimization.Tpo -c -o test_sbvar_optimization.obj `if test -f 'time_series/test_sbvar_optimization.cpp'; then $(CYGPATH_W) 'time_series/test_sbvar_optimization.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_sbvar_optimization.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/test_sbvar_optimization.Tpo $(DEPDIR)/test_sbvar_optimization.Po
+#	$(AM_V_CXX)source='time_series/test_sbvar_optimization.cpp' object='test_sbvar_optimization.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_sbvar_optimization.obj `if test -f 'time_series/test_sbvar_optimization.cpp'; then $(CYGPATH_W) 'time_series/test_sbvar_optimization.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_sbvar_optimization.cpp'; fi`
+
 sbvar.o: time_series/sbvar.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sbvar.o -MD -MP -MF $(DEPDIR)/sbvar.Tpo -c -o sbvar.o `test -f 'time_series/sbvar.cpp' || echo '$(srcdir)/'`time_series/sbvar.cpp
 	$(AM_V_at)$(am__mv) $(DEPDIR)/sbvar.Tpo $(DEPDIR)/sbvar.Po
@@ -691,20 +743,6 @@ sbvar_blocks.obj: time_series/sbvar_blocks.cpp
 #	$(AM_V_CXX)source='time_series/sbvar_blocks.cpp' object='sbvar_blocks.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sbvar_blocks.obj `if test -f 'time_series/sbvar_blocks.cpp'; then $(CYGPATH_W) 'time_series/sbvar_blocks.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/sbvar_blocks.cpp'; fi`
-
-test_sbvar_simulation.o: time_series/test_sbvar_simulation.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_sbvar_simulation.o -MD -MP -MF $(DEPDIR)/test_sbvar_simulation.Tpo -c -o test_sbvar_simulation.o `test -f 'time_series/test_sbvar_simulation.cpp' || echo '$(srcdir)/'`time_series/test_sbvar_simulation.cpp
-	$(AM_V_at)$(am__mv) $(DEPDIR)/test_sbvar_simulation.Tpo $(DEPDIR)/test_sbvar_simulation.Po
-#	$(AM_V_CXX)source='time_series/test_sbvar_simulation.cpp' object='test_sbvar_simulation.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_sbvar_simulation.o `test -f 'time_series/test_sbvar_simulation.cpp' || echo '$(srcdir)/'`time_series/test_sbvar_simulation.cpp
-
-test_sbvar_simulation.obj: time_series/test_sbvar_simulation.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_sbvar_simulation.obj -MD -MP -MF $(DEPDIR)/test_sbvar_simulation.Tpo -c -o test_sbvar_simulation.obj `if test -f 'time_series/test_sbvar_simulation.cpp'; then $(CYGPATH_W) 'time_series/test_sbvar_simulation.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_sbvar_simulation.cpp'; fi`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/test_sbvar_simulation.Tpo $(DEPDIR)/test_sbvar_simulation.Po
-#	$(AM_V_CXX)source='time_series/test_sbvar_simulation.cpp' object='test_sbvar_simulation.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_sbvar_simulation.obj `if test -f 'time_series/test_sbvar_simulation.cpp'; then $(CYGPATH_W) 'time_series/test_sbvar_simulation.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_sbvar_simulation.cpp'; fi`
 
 dw_dense_matrix.o: utilities_dw/dw_dense_matrix.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT dw_dense_matrix.o -MD -MP -MF $(DEPDIR)/dw_dense_matrix.Tpo -c -o dw_dense_matrix.o `test -f 'utilities_dw/dw_dense_matrix.cpp' || echo '$(srcdir)/'`utilities_dw/dw_dense_matrix.cpp
@@ -972,6 +1010,34 @@ slave_computing.obj: dsmh_mpi/slave_computing.cpp
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o slave_computing.obj `if test -f 'dsmh_mpi/slave_computing.cpp'; then $(CYGPATH_W) 'dsmh_mpi/slave_computing.cpp'; else $(CYGPATH_W) '$(srcdir)/dsmh_mpi/slave_computing.cpp'; fi`
 
+master_mode_finding_deploying.o: dsmh_mpi/master_mode_finding_deploying.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT master_mode_finding_deploying.o -MD -MP -MF $(DEPDIR)/master_mode_finding_deploying.Tpo -c -o master_mode_finding_deploying.o `test -f 'dsmh_mpi/master_mode_finding_deploying.cpp' || echo '$(srcdir)/'`dsmh_mpi/master_mode_finding_deploying.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/master_mode_finding_deploying.Tpo $(DEPDIR)/master_mode_finding_deploying.Po
+#	$(AM_V_CXX)source='dsmh_mpi/master_mode_finding_deploying.cpp' object='master_mode_finding_deploying.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o master_mode_finding_deploying.o `test -f 'dsmh_mpi/master_mode_finding_deploying.cpp' || echo '$(srcdir)/'`dsmh_mpi/master_mode_finding_deploying.cpp
+
+master_mode_finding_deploying.obj: dsmh_mpi/master_mode_finding_deploying.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT master_mode_finding_deploying.obj -MD -MP -MF $(DEPDIR)/master_mode_finding_deploying.Tpo -c -o master_mode_finding_deploying.obj `if test -f 'dsmh_mpi/master_mode_finding_deploying.cpp'; then $(CYGPATH_W) 'dsmh_mpi/master_mode_finding_deploying.cpp'; else $(CYGPATH_W) '$(srcdir)/dsmh_mpi/master_mode_finding_deploying.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/master_mode_finding_deploying.Tpo $(DEPDIR)/master_mode_finding_deploying.Po
+#	$(AM_V_CXX)source='dsmh_mpi/master_mode_finding_deploying.cpp' object='master_mode_finding_deploying.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o master_mode_finding_deploying.obj `if test -f 'dsmh_mpi/master_mode_finding_deploying.cpp'; then $(CYGPATH_W) 'dsmh_mpi/master_mode_finding_deploying.cpp'; else $(CYGPATH_W) '$(srcdir)/dsmh_mpi/master_mode_finding_deploying.cpp'; fi`
+
+slave_mode_finding_computing.o: dsmh_mpi/slave_mode_finding_computing.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT slave_mode_finding_computing.o -MD -MP -MF $(DEPDIR)/slave_mode_finding_computing.Tpo -c -o slave_mode_finding_computing.o `test -f 'dsmh_mpi/slave_mode_finding_computing.cpp' || echo '$(srcdir)/'`dsmh_mpi/slave_mode_finding_computing.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/slave_mode_finding_computing.Tpo $(DEPDIR)/slave_mode_finding_computing.Po
+#	$(AM_V_CXX)source='dsmh_mpi/slave_mode_finding_computing.cpp' object='slave_mode_finding_computing.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o slave_mode_finding_computing.o `test -f 'dsmh_mpi/slave_mode_finding_computing.cpp' || echo '$(srcdir)/'`dsmh_mpi/slave_mode_finding_computing.cpp
+
+slave_mode_finding_computing.obj: dsmh_mpi/slave_mode_finding_computing.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT slave_mode_finding_computing.obj -MD -MP -MF $(DEPDIR)/slave_mode_finding_computing.Tpo -c -o slave_mode_finding_computing.obj `if test -f 'dsmh_mpi/slave_mode_finding_computing.cpp'; then $(CYGPATH_W) 'dsmh_mpi/slave_mode_finding_computing.cpp'; else $(CYGPATH_W) '$(srcdir)/dsmh_mpi/slave_mode_finding_computing.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/slave_mode_finding_computing.Tpo $(DEPDIR)/slave_mode_finding_computing.Po
+#	$(AM_V_CXX)source='dsmh_mpi/slave_mode_finding_computing.cpp' object='slave_mode_finding_computing.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o slave_mode_finding_computing.obj `if test -f 'dsmh_mpi/slave_mode_finding_computing.cpp'; then $(CYGPATH_W) 'dsmh_mpi/slave_mode_finding_computing.cpp'; else $(CYGPATH_W) '$(srcdir)/dsmh_mpi/slave_mode_finding_computing.cpp'; fi`
+
 dw_data.o: time_series/dw_data.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT dw_data.o -MD -MP -MF $(DEPDIR)/dw_data.Tpo -c -o dw_data.o `test -f 'time_series/dw_data.cpp' || echo '$(srcdir)/'`time_series/dw_data.cpp
 	$(AM_V_at)$(am__mv) $(DEPDIR)/dw_data.Tpo $(DEPDIR)/dw_data.Po
@@ -1013,6 +1079,34 @@ CEquiEnergy_TimeSeries.obj: time_series/CEquiEnergy_TimeSeries.cpp
 #	$(AM_V_CXX)source='time_series/CEquiEnergy_TimeSeries.cpp' object='CEquiEnergy_TimeSeries.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o CEquiEnergy_TimeSeries.obj `if test -f 'time_series/CEquiEnergy_TimeSeries.cpp'; then $(CYGPATH_W) 'time_series/CEquiEnergy_TimeSeries.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/CEquiEnergy_TimeSeries.cpp'; fi`
+
+test_sbvar_simulation.o: time_series/test_sbvar_simulation.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_sbvar_simulation.o -MD -MP -MF $(DEPDIR)/test_sbvar_simulation.Tpo -c -o test_sbvar_simulation.o `test -f 'time_series/test_sbvar_simulation.cpp' || echo '$(srcdir)/'`time_series/test_sbvar_simulation.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/test_sbvar_simulation.Tpo $(DEPDIR)/test_sbvar_simulation.Po
+#	$(AM_V_CXX)source='time_series/test_sbvar_simulation.cpp' object='test_sbvar_simulation.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_sbvar_simulation.o `test -f 'time_series/test_sbvar_simulation.cpp' || echo '$(srcdir)/'`time_series/test_sbvar_simulation.cpp
+
+test_sbvar_simulation.obj: time_series/test_sbvar_simulation.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_sbvar_simulation.obj -MD -MP -MF $(DEPDIR)/test_sbvar_simulation.Tpo -c -o test_sbvar_simulation.obj `if test -f 'time_series/test_sbvar_simulation.cpp'; then $(CYGPATH_W) 'time_series/test_sbvar_simulation.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_sbvar_simulation.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/test_sbvar_simulation.Tpo $(DEPDIR)/test_sbvar_simulation.Po
+#	$(AM_V_CXX)source='time_series/test_sbvar_simulation.cpp' object='test_sbvar_simulation.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_sbvar_simulation.obj `if test -f 'time_series/test_sbvar_simulation.cpp'; then $(CYGPATH_W) 'time_series/test_sbvar_simulation.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_sbvar_simulation.cpp'; fi`
+
+test_tvsbvar_optimization.o: time_series/test_tvsbvar_optimization.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_tvsbvar_optimization.o -MD -MP -MF $(DEPDIR)/test_tvsbvar_optimization.Tpo -c -o test_tvsbvar_optimization.o `test -f 'time_series/test_tvsbvar_optimization.cpp' || echo '$(srcdir)/'`time_series/test_tvsbvar_optimization.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/test_tvsbvar_optimization.Tpo $(DEPDIR)/test_tvsbvar_optimization.Po
+#	$(AM_V_CXX)source='time_series/test_tvsbvar_optimization.cpp' object='test_tvsbvar_optimization.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_tvsbvar_optimization.o `test -f 'time_series/test_tvsbvar_optimization.cpp' || echo '$(srcdir)/'`time_series/test_tvsbvar_optimization.cpp
+
+test_tvsbvar_optimization.obj: time_series/test_tvsbvar_optimization.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT test_tvsbvar_optimization.obj -MD -MP -MF $(DEPDIR)/test_tvsbvar_optimization.Tpo -c -o test_tvsbvar_optimization.obj `if test -f 'time_series/test_tvsbvar_optimization.cpp'; then $(CYGPATH_W) 'time_series/test_tvsbvar_optimization.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_tvsbvar_optimization.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/test_tvsbvar_optimization.Tpo $(DEPDIR)/test_tvsbvar_optimization.Po
+#	$(AM_V_CXX)source='time_series/test_tvsbvar_optimization.cpp' object='test_tvsbvar_optimization.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o test_tvsbvar_optimization.obj `if test -f 'time_series/test_tvsbvar_optimization.cpp'; then $(CYGPATH_W) 'time_series/test_tvsbvar_optimization.cpp'; else $(CYGPATH_W) '$(srcdir)/time_series/test_tvsbvar_optimization.cpp'; fi`
 
 hyper_parameter.o: time_series/hyper_parameter.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT hyper_parameter.o -MD -MP -MF $(DEPDIR)/hyper_parameter.Tpo -c -o hyper_parameter.o `test -f 'time_series/hyper_parameter.cpp' || echo '$(srcdir)/'`time_series/hyper_parameter.cpp

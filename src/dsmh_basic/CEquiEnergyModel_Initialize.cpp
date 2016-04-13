@@ -39,3 +39,27 @@ std::vector<CSampleIDWeight> CEquiEnergyModel::Initialize_WeightedSampling(const
 		return std::vector<CSampleIDWeight>(0); 
 }
 
+std::vector<CSampleIDWeight> CEquiEnergyModel::Initialize_WeightedSampling(const std::vector<CSampleIDWeight> &samples, int K)
+{
+	if (!samples.empty())
+	{
+		std::vector<CSampleIDWeight> starters(K); 
+		// Cumulative sum of importance weights
+		vector<double> log_weight_sum(samples.size()), weight_sum(samples.size()); 
+		log_weight_sum[0] = samples[0].weight;  
+		for (int i=1; i<(int)samples.size(); i++)
+			log_weight_sum[i] = AddLogs(log_weight_sum[i-1], samples[i].weight); 
+		for (int i=0; i<(int)samples.size(); i++) // Normalize
+			weight_sum[i] = exp(log_weight_sum[i] -log_weight_sum.back()); 
+
+		for (int i=0; i<K; i++)
+		{
+			double random_number = dw_uniform_rnd(); 
+			int position = std::lower_bound(weight_sum.begin(), weight_sum.end(), random_number)-weight_sum.begin(); 
+			starters[i] = samples[position]; 	
+		} 
+		return starters; 
+	}
+	else 
+		return std::vector<CSampleIDWeight>(0); 
+}
