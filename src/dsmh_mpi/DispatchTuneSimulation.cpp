@@ -104,7 +104,11 @@ void DispatchTuneSimulation(double *sPackage, double *rPackage, const int N_MESS
 		log_file << "DispatchTuneSimulation() - drawing from stage=" << model.parameter->highest_stage+1  << " " << ctime(&rawtime) << endl;
 
 		// samples = samples of highest+1 stage
-		samples = HighestPlus1Stage(sPackage, rPackage, N_MESSAGE, nNode, nInitial, model, mode, alpha_0, alpha_1, log_file, jump_file);   // Sample from prior
+		const bool NPSOL_HIGHEST_PLUS_1 = true; 
+		if (NPSOL_HIGHEST_PLUS_1)
+			samples = HighestPlus1Stage(sPackage, rPackage, N_MESSAGE, nNode, nInitial, model, mode, alpha_0, alpha_1, log_file, jump_file);   // At highest+1 level, first find a local maximum of the heated posterior, and do adaptive Metropolis Hasting
+		else 
+			samples = HighestPlus1Stage_Prior(sPackage, rPackage, N_MESSAGE, nNode, nInitial, model, jump_file);   // Alternatively, at the highest+1 level, draw from prior distribution
 				
 		time(&rawtime);
 		log_file << "DispatchTuneSimulation() - done drawing from stage=" << model.parameter->highest_stage+1 << " " << ctime(&rawtime) << endl;

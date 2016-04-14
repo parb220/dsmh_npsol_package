@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	
 	while (1)
         {
-                int c = getopt_long(argc, argv, "D:V:C:S:Y:F:R:N:O:P:s", long_options, &option_index);
+                int c = getopt_long(argc, argv, "D:V:C:S:Y:F:R:N:O:P:s:", long_options, &option_index);
                 if (c == -1)
                         break;
                 switch(c)
@@ -106,7 +106,7 @@ int main(int argc, char **argv)
         }
         if (data_file_name.empty() || (markov_regime_process_file.empty() && deterministic_regime_process_file.empty() )|| restriction_file.empty() || hyper_parameter_file.empty() ||sim_option.run_id.empty() || n_optimization < 0)
 	{
-		cerr << "Usage: " << argv[0] << " -D data file -V markov regime process file -C deterministic regime process file -S restriction file -Y hyper parameter file\n"; 
+		cerr << "Usage: " << argv[0] << " -D data file -V markov regime process file -C deterministic regime process file -S restriction file -Y hyper parameter file -R run_ID -N number_optimization\n"; 
 		exit(1); 
 	}
 	
