@@ -1,3 +1,16 @@
+/////////////////////////////////////
+IMPORTANT
+This package requires NPSOL be installed. In addition to DSMH simulation, it also contains the code that does optimization after DSMH simulation. 
+
+In the file src/dsmh_mpi/DispatchTuneSimulation.cpp, Line 107, there is a flag NPSOL_HIGHEST_PLUS_1 by defulat set as false. This means that at the initial stage, the simulator draws samples from the prior distribution, and the constant of integration for the ininital stage is 1. 
+
+If the flag NPSOL_HIGHEST_PLUS_1 is set as true, then at the initial stage, the simulator first finds a maximum point of the heated posterior distribution (by applying the NPSOL method), and then runs adaptive Metropolis-Hasting method to get draws. In this way, the constant of integration at the initial stage may not necessarily be 1, and therefore the constant of integrations for the remaining stages may not be accurate. 
+
+Also included in this package are the codes to do the optimization after the DSMH simulation. Two examples are also included for sbvar and tvsbvar models, src/time_series/test_sbvar_optimization.cpp and src/time_series/test_tvsbvar_optimization.cpp. 
+
+/////////////////////////////////////
+
+
 1. Libraries that are needed before dsmh can be properly installed
 a. GSL (GNU Scientific Library), http://www.gnu.org/software/gsl/
 b. BLAS (Basic Linear Algebra Subprograms), http://www.netlib.org/blas/
