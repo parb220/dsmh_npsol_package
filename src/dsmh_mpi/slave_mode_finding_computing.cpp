@@ -60,7 +60,7 @@ void slave_mode_finding_computing(const int N_MESSAGE, CEquiEnergyModel &model, 
 			ofstream output_file(output_filename.c_str(), iostream::out); 
 			if (!output_file)
 			{
-				cerr << "slave_mode_finding_computing() : Error occurred writing optimization solutions to " << output_file << endl;
+				cerr << "slave_mode_finding_computing() : Error occurred writing optimization solutions to " << output_filename << endl;
 				exit(1);
 			}
 			for (int j=0; j<(int)solutions.size(); j++)
